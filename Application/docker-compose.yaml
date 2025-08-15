@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+  hello-service:
+    build:
+      context: ./backend/helloService
+    container_name: hello-service
+    ports:
+      - "3001:3001"
+    environment:
+      PORT: 3001
+    depends_on:
+      - mongodb
+    restart: always
+
+  profile-service:
+    build:
+      context: ./backend/profileService
+    container_name: profile-service
+    ports:
+      - "3002:3002"
+    environment:
+      PORT: 3002
+      MONGO_URL: "mongodb://mongodb:27017/profilesDB"
+    depends_on:
+      - mongodb
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - hello-service
+      - profile-service
+    restart: always
+
+volumes:
+  mongo_data:
