@@ -1,0 +1,71 @@
+pipeline {
+    agent any
+    environment {
+        AWS_REGION = 'us-west-2'
+        ECR_REGISTRY = '975050024946.dkr.ecr.us-west-2.amazonaws.com'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps { 
+                git branch: 'main',
+                    url: 'https://github.com/ranyabrkumar/Orchestration_Scaling.git'
+            }
+        }
+
+        stage('Login to ECR') {
+            steps {
+                sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
+            }
+        }
+        stage('Build & Push Backend Services') {
+        parallel {
+                stage('Build & Push HelloService') {
+                    steps {
+                        dir('Application/backend/helloService') {
+                            sh "docker build -t ranyabrkumar:mern-helloservice_v${BUILD_NUMBER} ."
+                            sh "docker tag ranyabrkumar:mern-helloservice_v${BUILD_NUMBER} ${ECR_REGISTRY}/ranyabrkumar:mern-helloservice_v${BUILD_NUMBER}"
+                            sh "docker push ${ECR_REGISTRY}/ranyabrkumar:mern-helloservice_v${BUILD_NUMBER}"
+                        }
+                    }
+                }
+        
+                stage('Build & Push ProfileService') {
+                    steps {
+                        dir('Application/backend/profileService') {
+                            sh "docker build -t ranyabrkumar:mern-profileservice_v${BUILD_NUMBER} ."
+                            sh "docker tag ranyabrkumar:mern-profileservice_v${BUILD_NUMBER} ${ECR_REGISTRY}/ranyabrkumar:mern-profileservice_v${BUILD_NUMBER}"
+                            sh "docker push ${ECR_REGISTRY}/ranyabrkumar:mern-profileservice_v${BUILD_NUMBER}"
+                        }
+                    }
+                }
+             }
+        }
+
+        stage('Build & Push Frontend') {
+            steps {
+                dir('Application/frontend') {
+                    sh "docker build -t ranyabrkumar:mern-frontend_v${BUILD_NUMBER} ."
+                    sh "docker tag ranyabrkumar:mern-frontend_v${BUILD_NUMBER} ${ECR_REGISTRY}/ranyabrkumar:mern-frontend_v${BUILD_NUMBER}"
+                    sh "docker push ${ECR_REGISTRY}/ranyabrkumar:mern-frontend_v${BUILD_NUMBER}"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Cleaning up local Docker images..."
+            sh '''
+                docker rmi -f ranyabrkumar:mern-helloservice_v${BUILD_NUMBER} || true
+                docker rmi -f ${ECR_REGISTRY}/ranyabrkumar:mern-helloservice_v${BUILD_NUMBER} || true
+                docker rmi -f ranyabrkumar:mern-profileservice_v${BUILD_NUMBER} || true
+                docker rmi -f ${ECR_REGISTRY}/ranyabrkumar:mern-profileservice_v${BUILD_NUMBER} || true
+                docker rmi -f ranyabrkumar:mern-frontend_v${BUILD_NUMBER} || true
+                docker rmi -f ${ECR_REGISTRY}/ranyabrkumar:mern-frontend_v${BUILD_NUMBER} || true
+            '''
+            echo "Cleaning up workspace..."
+            deleteDir()
+        }
+    }
+}
