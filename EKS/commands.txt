@@ -1,4 +1,4 @@
-eksctl create cluster --name mern-app-deployment --region us-west-2 --nodegroup-name standard-workers --node-type t2.micro --nodes 4 --nodes-min 1 --nodes-max 6
+eksctl create cluster --name mern-app-deployment-rbrk4 --region us-west-2 --nodegroup-name standard-workers --node-type t2.micro --nodes 4 --nodes-min 1 --nodes-max 6
 
 
 aws eks --region us-west-2 update-kubeconfig --name mern-app-deployment
@@ -19,4 +19,4 @@ kubectl config get-contexts
 
 Switching to the cluster:
 
-kubectl config use-context docker-desktop
+kubectl config use-context mern-app-deployment-rbrk4.us-west-2.eksctl.io

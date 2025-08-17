@@ -8,7 +8,7 @@ import os
 AWS_REGION = "us-west-2"
 LAMBDA_NAME = "MongoDBBackupLambda"
 LAMBDA_ROLE_NAME = "MongoDBBackupLambdaRole"
-S3_BUCKET = "mernapp-db-rbrk"
+S3_BUCKET = "mernapp-db-rbrk2"
 MONGO_URI = "mongodb://44.250.98.224:27017/mernapp"
 RETENTION_DAYS = "7"
 LAMBDA_FILE = "Infra\lambda_function.py"   # Your Lambda code
