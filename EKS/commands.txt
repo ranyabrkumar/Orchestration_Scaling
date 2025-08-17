@@ -1,0 +1,22 @@
+eksctl create cluster --name mern-app-deployment --region us-west-2 --nodegroup-name standard-workers --node-type t2.micro --nodes 4 --nodes-min 1 --nodes-max 6
+
+
+aws eks --region us-west-2 update-kubeconfig --name mern-app-deployment
+
+kubectl apply -f Deployment.yaml
+
+
+To Monitor:
+kubectl get services --watch
+
+
+Clean Up option:
+eksctl delete cluster --name helm-app-deployment --region us-west-2
+
+Find all contexts (Cluster):
+
+kubectl config get-contexts
+
+Switching to the cluster:
+
+kubectl config use-context docker-desktop
