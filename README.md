@@ -207,6 +207,8 @@ eksctl create cluster \
 ![helm_frontend](https://github.com/user-attachments/assets/ca59ca84-73c5-4d13-8c60-20fcc533e80d)
 ![helm_helloservice](https://github.com/user-attachments/assets/85c8a9f7-9ee2-4824-906a-a8c3d624f813)
 ![helm_profileservice](https://github.com/user-attachments/assets/770f8e30-96d4-416d-a963-34c87f40ea57)
+![helm_svc](https://github.com/user-attachments/assets/c23d7a21-bb8d-4969-8736-b9281146a27d)
+![helm_pods](https://github.com/user-attachments/assets/5148e57d-0a00-45a2-8589-583e692e331e)
 
 ---
 ### Step 11: Monitoring and Logging
