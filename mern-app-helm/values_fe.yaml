@@ -1,0 +1,31 @@
+appName: frontend
+namespace: helm
+replicaCount: 1
+container:
+  appName: frontend
+  labelName: frontend
+  port: 3000
+image:
+ repository: 975050024946.dkr.ecr.us-west-2.amazonaws.com/ranyabrkumar
+ tag: mern-frontend_v20
+
+
+
+service:
+  name: frontend
+  type: NodePort
+  port: 80
+  targetPort: 3000
+
+
+livenessProbe:
+  enabled: false
+  path: /
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+readinessProbe:
+  enabled: false
+  path: /
+  initialDelaySeconds: 5
+  periodSeconds: 5

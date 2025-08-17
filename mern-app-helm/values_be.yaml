@@ -1,0 +1,44 @@
+appName: backend1
+namespace: helm
+replicaCount: 1
+
+container:
+  appName: helloservice
+  labelName: helloservice
+  port: 3001
+
+image:
+  repository: 975050024946.dkr.ecr.us-west-2.amazonaws.com/ranyabrkumar
+  tag: mern-helloservice_v21
+
+env:
+  - name: PORT
+    value: "3001"
+
+service:
+  name: helloservice
+  type: ClusterIP
+  port: 3001
+  targetPort: 3001
+
+livenessProbe:
+  enabled: false
+  path: /
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+readinessProbe:
+  enabled: false
+  path: /
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+# Added autoscaling block to avoid nil pointer
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPU: 80
+ingress:
+  enabled: false
+  name: helloservice-ingress

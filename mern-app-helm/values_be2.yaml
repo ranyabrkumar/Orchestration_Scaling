@@ -1,0 +1,42 @@
+appName: backend2
+namespace: helm
+replicaCount: 1
+container:
+  appName: profileservice
+  labelName: profileservice
+  port: 3002
+image:
+  repository: 975050024946.dkr.ecr.us-west-2.amazonaws.com/ranyabrkumar
+  tag: mern-profileservice_v21
+
+env:
+  - name: MONGO_URI
+    value: "mongodb+srv://ranyabrkumar:q6gL9MDzZiW291fC@ranya-cluster.auw6kfz.mongodb.net/?retryWrites=true&w=majority&appName=Ranya-cluster"
+  - name: PORT
+    value: "3002"
+
+
+
+service:
+  name: profileservice
+  type: ClusterIP
+  port: 3002
+  targetPort: 3002
+livenessProbe:
+  enabled: false
+  path: /
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  
+
+readinessProbe:
+  enabled: false
+  path: /
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+
+ingress:
+  enabled: true
+  name: mern-ingress-be2   # unique name
+  host: backend2.ranyabrkumar.shop
