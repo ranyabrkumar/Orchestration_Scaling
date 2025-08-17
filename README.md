@@ -153,7 +153,11 @@ For updating your fork with the main repository:
     ```
     python Infra/lambda_function.py
     ```
-![ALB_DNS](https://github.com/user-attachments/assets/527c031b-91c3-4acb-aa6a-9450b23dd66c)
+![CLoudWatch_Log_lamdafn_MongoBkp](https://github.com/user-attachments/assets/2c7f8cc2-9d44-49ed-92e6-8fcd968b3a3e)
+
+    
+![S3_Aft_lambda_execution](https://github.com/user-attachments/assets/f934ce6a-931f-408e-8eb7-889d8eeb538f)
+
 
 ---
 
