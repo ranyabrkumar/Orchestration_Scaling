@@ -155,29 +155,33 @@ For updating your fork with the main repository:
     ```
 ![CLoudWatch_Log_lamdafn_MongoBkp](https://github.com/user-attachments/assets/2c7f8cc2-9d44-49ed-92e6-8fcd968b3a3e)
 
-    
+    ![subscription_confirmation](https://github.com/user-attachments/assets/6812f61d-bfb1-4e27-8c39-f57139eb9a9d)
+
 ![S3_Aft_lambda_execution](https://github.com/user-attachments/assets/f934ce6a-931f-408e-8eb7-889d8eeb538f)
 
 
 ---
 
 
-### Step 10: Kubernetes (EKS) Deployment
+## Step 10: Kubernetes (EKS) Deployment
 
-1. **Create EKS Cluster**
-   - Use `eksctl` or AWS tools to create an EKS cluster.
-     ```
-     eksctl create cluster \
-      --name mern-app-deployment-rbrk3 \
-      --region us-west-2 \
-      --nodegroup-name standard-workers \
-      --node-type t2.micro \
-      --nodes 3\
-      --nodes-min 1 \
-      --nodes-max 6 \
-      --vpc-public-subnets subnet-070f725d5ab66cbef,subnet-09bd0e0acc92d4efa
-  ```
+### 1. Create EKS Cluster
+
+Use `eksctl` or AWS tools to create an EKS cluster:
+
+```bash
+eksctl create cluster \
+  --name mern-app-deployment-rbrk4 \
+  --region us-west-2 \
+  --nodegroup-name standard-workers \
+  --node-type t2.micro \
+  --nodes 4 \
+  --nodes-min 1 \
+  --nodes-max 6
+```
+
 <img width="1684" height="841" alt="EKS Deployment" src="https://github.com/user-attachments/assets/212ca213-dd66-4219-9f58-f05ce2647313" />
+
 
 
 2. **Deploy Application with Helm**
@@ -192,23 +196,28 @@ For updating your fork with the main repository:
     ```
   - To uninstall helm chart
   ```
-  helm uninstall <releasename>
-  
-  ```
+  helm uninstall <releasename>  
+```
+
 - To package helm chart
-```
-helm package <chart-directory>
-```
+
+   ```
+      helm package ./<chart-directory>
+   ```
+![helm_frontend](https://github.com/user-attachments/assets/ca59ca84-73c5-4d13-8c60-20fcc533e80d)
+![helm_helloservice](https://github.com/user-attachments/assets/85c8a9f7-9ee2-4824-906a-a8c3d624f813)
+![helm_profileservice](https://github.com/user-attachments/assets/770f8e30-96d4-416d-a963-34c87f40ea57)
 
 ---
-
 ### Step 11: Monitoring and Logging
 
 1. **Monitoring**
    - Use CloudWatch to monitor application health and set alarms.
+![cloudwatch_Alarm_SetUp](https://github.com/user-attachments/assets/a64b1dce-6214-4271-82ef-d4aed437ebaa)
 
 2. **Logging**
    - Use CloudWatch Logs or another logging solution for collecting logs.
+![cloudwatch_log_monitoring](https://github.com/user-attachments/assets/018aeaeb-e742-43c5-bebf-a5d8e913ef96)
 
 ---
 
@@ -224,6 +233,7 @@ helm package <chart-directory>
 
 1. **Validate Deployment**
    - Ensure the MERN application is accessible and functioning correctly.
+<img width="925" height="170" alt="image" src="https://github.com/user-attachments/assets/dada50c4-e32a-468c-89b2-75592b119413" />
 
 ---
 
@@ -231,6 +241,8 @@ helm package <chart-directory>
 
 1. **Create SNS Topics**
    - Use Boto3 to create topics for deployment events (success/failure).
+![snsTopic](https://github.com/user-attachments/assets/24036ddc-7a1c-4669-87a6-f4d82f1ce569)
+
 
 2. **Create Lambda for ChatOps**
    - Write Lambda functions that send notifications to SNS topics.
